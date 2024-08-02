@@ -1,0 +1,4 @@
+#ifndef CONSTATANTS_H
+#define CONSTATANTS_H
+
+#endif // CONSTATANTS_H
