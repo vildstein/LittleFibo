@@ -41,6 +41,8 @@ else()
             mainwindowscene.h mainwindowscene.cpp
             templates.h
             constatants.h
+            trendline.h trendline.cpp
+            dot.h dot.cpp
         )
     endif()
 endif()

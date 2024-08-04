@@ -9,7 +9,9 @@
 #include <QCloseEvent>
 #include <QKeySequence>
 
-
+//Пользовательские ТД
+#include "trendline.h"
+#include "dot.h"
 
 //Удалить потом
 #include <QDebug>
@@ -20,6 +22,7 @@ LittleFibo::LittleFibo(QWidget *parent)
 {
     mScene = new MainWindowScene(this);
     mView = new QGraphicsView(mScene, this);
+    mView -> setDragMode(QGraphicsView::RubberBandDrag);
 
     createActions();
     createMenus();
@@ -33,13 +36,38 @@ LittleFibo::~LittleFibo()
 {
 
 }
-
+//Создать даилог для открыитя файла с торговыми данными
 void LittleFibo::createFileDialog()
 {
 
 }
-
+//Создать соединение к серваку //Но нужно НАВЕРНОЕ сделать по другому
 void LittleFibo::createDataLoadFromNetworkDialog()
+{
+
+}
+//Создать линию тренда
+void LittleFibo::createTrendLine()
+{
+    startDot = new Dot;
+    endDot = new Dot;
+    trendLine = new TrendLine(startDot, endDot);
+    startDot -> setPos(QPointF(200.0, 200.0));
+    endDot -> setPos(QPointF(400.0, 400.0));
+    mScene -> addItem(startDot);
+    mScene -> addItem(endDot);
+    mScene -> addItem(trendLine);
+
+    mScene -> clearSelection();
+
+}
+
+void LittleFibo::createHorizontalLine()
+{
+
+}
+
+void LittleFibo::createVerticalLine()
 {
 
 }
@@ -130,6 +158,13 @@ void LittleFibo::createActions()
     connect(readFromFileAction, &QAction::triggered, this, &LittleFibo::createFileDialog);
     connect(connectToNetWorkAction, &QAction::triggered, this, &LittleFibo::createDataLoadFromNetworkDialog);//
     connect(exitAction, &QAction::triggered, this, &LittleFibo::close);
+
+    //Коннекты для под Меню линии
+    connect(trendLineAction, &QAction::triggered, this, &LittleFibo::createTrendLine);
+    connect(horizontalLineAction, &QAction::triggered, this, &LittleFibo::createHorizontalLine);
+    connect(verticalLineAction, &QAction::triggered, this, &LittleFibo::createVerticalLine);
+
+
     //Коннекты для меню About
     connect(aboutAction, &QAction::triggered, this, &LittleFibo::about);
     connect(aboutQtAction, &QAction::triggered, qApp, &QApplication::aboutQt);

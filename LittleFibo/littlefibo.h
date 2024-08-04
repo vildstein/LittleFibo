@@ -3,10 +3,17 @@
 
 #include <QMainWindow>
 
+//Предварительное объявление классов, чтобы не пихать
+//Все хедеры в один
+
 class QGraphicsView;
-class MainWindowScene;
 class QAction;
 class QMenu;
+
+//Пользовательские ТД
+class MainWindowScene;
+class Dot;
+class TrendLine;
 
 //Сначала прописать класс Bar
 //В Меню сделать 2 варианта: загрузить данные из файла
@@ -34,8 +41,18 @@ signals:
 public slots:
 
 private slots:
+    //Создать даилог для открыитя файла с торговыми данными
     void createFileDialog();
+    //Создать соединение к серваку //Но нужно НАВЕРНОЕ сделать по другому
     void createDataLoadFromNetworkDialog();
+    //Создать линию тренда
+    void createTrendLine();
+    //Создать Горизгонтальныую линию
+    void createHorizontalLine();
+    //Создать Вертикальную линию
+    void createVerticalLine();
+
+    //Окно "О Программе"
     void about();
 
 protected:
@@ -58,7 +75,14 @@ private:
 
 
     QGraphicsView *mView;
+
+    //Пользовательские тд
     MainWindowScene *mScene;
+
+    Dot *startDot;
+    Dot *endDot;
+    TrendLine *trendLine;
+
 
     //Экшены для менюшки ФАЙЛ
     QAction *readFromFileAction;
