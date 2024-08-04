@@ -11,7 +11,11 @@ public:
     Dot(QGraphicsItem *parent = nullptr);
     virtual ~Dot() = default;
 
+    void updateStartPosition(TrendLine *trendLine = nullptr);
+    void updateEndPosition(TrendLine *trendLine = nullptr);
+
     //Геттеры
+    QPointF getCenter() const;
 
     //Сеттеры
     void setLine(TrendLine *trendLine);

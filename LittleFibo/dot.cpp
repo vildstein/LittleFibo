@@ -18,6 +18,21 @@ Dot::Dot(QGraphicsItem *parent) : QGraphicsObject(parent)
     mItemRect = QRectF{mCenter - QPointF(3.0, 3.0), mCenter + QPointF(3.0, 3.0)};
 }
 
+void Dot::updateStartPosition(TrendLine *trendLine)
+{
+    this -> setPos(trendLine -> getStartPos());
+}
+
+void Dot::updateEndPosition(TrendLine *trendLine)
+{
+
+}
+
+QPointF Dot::getCenter() const
+{
+    return mCenter;
+}
+
 void Dot::setLine(TrendLine *trendLine)
 {
     mTrendLine = trendLine;
