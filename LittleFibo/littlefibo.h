@@ -14,6 +14,9 @@ class QMenu;
 class MainWindowScene;
 class Dot;
 class TrendLine;
+class FibonacciLevels;
+class FiboSpiral;
+
 
 //Сначала прописать класс Bar
 //В Меню сделать 2 варианта: загрузить данные из файла
@@ -52,6 +55,12 @@ private slots:
     //Создать Вертикальную линию
     void createVerticalLine();
 
+    //Создать уровни Фибоначчи
+    void createFibonacciLevels();
+
+    //Создать спираль
+    void createFibonacciSpiral();
+
     //Окно "О Программе"
     void about();
 
@@ -82,6 +91,8 @@ private:
     Dot *startDot;
     Dot *endDot;
     TrendLine *trendLine;
+    FibonacciLevels *mFibonacciLevels;
+    FiboSpiral *spiral;
 
 
     //Экшены для менюшки ФАЙЛ

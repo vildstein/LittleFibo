@@ -1,5 +1,7 @@
 #include "dot.h"
 #include "trendline.h"
+#include "fibospiral.h"
+#include "fibonaccilevels.h"
 
 #include <QPainter>
 #include <QPen>
@@ -25,7 +27,7 @@ void Dot::updateStartPosition(TrendLine *trendLine)
 
 void Dot::updateEndPosition(TrendLine *trendLine)
 {
-
+    //this -> setPos(trendLine -> getEndPos());
 }
 
 QPointF Dot::getCenter() const
@@ -38,9 +40,20 @@ void Dot::setLine(TrendLine *trendLine)
     mTrendLine = trendLine;
 }
 
+void Dot::setSpiral(FiboSpiral *spiral)
+{
+    mSpiral = spiral;
+}
+
+void Dot::setFibonacciLevelsMainLine(FibonacciLevels *mainLine)
+{
+    mFibonacciLevelsMainLine = mainLine;
+}
+
 QRectF Dot::boundingRect() const
 {
-    return mItemRect;
+    const int margin = 1;
+    return mItemRect.adjusted(-margin, -margin, +margin, +margin);
 }
 
 QPainterPath Dot::shape() const
@@ -59,17 +72,30 @@ void Dot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
         pen.setColor(Qt::green);
         painter -> setPen(pen);
         painter -> setBrush(Qt::green);
-        painter -> drawRect(boundingRect());
+        //painter -> drawRect(boundingRect());
+        painter -> drawEllipse(boundingRect());
     }
     painter -> setPen(pen);
-    painter -> drawRect(boundingRect());
+    //painter -> drawRect(boundingRect());
+    painter -> drawEllipse(boundingRect());
 }
 
 QVariant Dot::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if(change == QGraphicsItem::ItemPositionHasChanged)
     {
-        mTrendLine -> updatePosition();
+        if(mTrendLine != nullptr)
+        {
+            mTrendLine -> updatePosition();
+        }
+        else if(mSpiral != nullptr)
+        {
+            mSpiral -> updatePosition();
+        }
+        else if(mFibonacciLevelsMainLine != nullptr)
+        {
+            mFibonacciLevelsMainLine -> updatePosition();
+        }
     }
 
     return QGraphicsItem::itemChange(change, value);

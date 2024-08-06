@@ -12,6 +12,8 @@
 //Пользовательские ТД
 #include "trendline.h"
 #include "dot.h"
+#include "fibonaccilevels.h"
+#include "fibospiral.h"
 
 //Удалить потом
 #include <QDebug>
@@ -21,8 +23,14 @@ LittleFibo::LittleFibo(QWidget *parent)
     : QMainWindow(parent)
 {
     mScene = new MainWindowScene(this);
+
+    mScene -> setSceneRect(QRectF(1000.0, 1000.0, -1000.0, -1000.0));
+
     mView = new QGraphicsView(mScene, this);
     mView -> setDragMode(QGraphicsView::RubberBandDrag);
+    mView -> setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+
+
 
     createActions();
     createMenus();
@@ -46,6 +54,9 @@ void LittleFibo::createDataLoadFromNetworkDialog()
 {
 
 }
+//По хорошему все инструменты, которые имеют 2 точки
+//лучше переписать шаблоном
+
 //Создать линию тренда
 void LittleFibo::createTrendLine()
 {
@@ -70,6 +81,41 @@ void LittleFibo::createHorizontalLine()
 void LittleFibo::createVerticalLine()
 {
 
+
+}
+
+void LittleFibo::createFibonacciLevels()
+{
+    startDot = new Dot;
+    endDot = new Dot;
+    startDot -> setPos(QPointF(150.0, 100.0));
+    endDot -> setPos(QPointF(300.0, 300.0));
+
+    mFibonacciLevels = new FibonacciLevels(startDot, endDot);
+
+    mScene -> addItem(startDot);
+    mScene -> addItem(endDot);
+    mScene -> addItem(mFibonacciLevels);
+
+    mScene -> clearSelection();
+
+}
+//Создать спираль
+void LittleFibo::createFibonacciSpiral()
+{
+    startDot = new Dot;
+    endDot = new Dot;
+    startDot -> setPos(QPointF(150.0, 150.0));
+    endDot -> setPos(QPointF(350.0, 350.0));
+    spiral = new FiboSpiral(startDot, endDot);
+
+
+    mScene -> addItem(startDot);
+    mScene -> addItem(endDot);
+    mScene -> addItem(spiral);
+
+    mScene -> clearSelection();
+
 }
 
 void LittleFibo::about()
@@ -80,6 +126,7 @@ void LittleFibo::about()
 void LittleFibo::closeEvent(QCloseEvent *event)
 {
     saveFile();
+    mScene -> clear();
     event -> accept();
 }
 
@@ -159,10 +206,14 @@ void LittleFibo::createActions()
     connect(connectToNetWorkAction, &QAction::triggered, this, &LittleFibo::createDataLoadFromNetworkDialog);//
     connect(exitAction, &QAction::triggered, this, &LittleFibo::close);
 
-    //Коннекты для под Меню линии
+    //Коннекты для под Меню ЛИНИИ
     connect(trendLineAction, &QAction::triggered, this, &LittleFibo::createTrendLine);
     connect(horizontalLineAction, &QAction::triggered, this, &LittleFibo::createHorizontalLine);
     connect(verticalLineAction, &QAction::triggered, this, &LittleFibo::createVerticalLine);
+
+    //Коннекты для од Меню ИНСТРУМЕНТЫ ФИБОНАЧЧИ
+    connect(fiboLevelsAction, &QAction::triggered, this, &LittleFibo::createFibonacciLevels);
+    connect(fiboSpiralAction, &QAction::triggered, this, &LittleFibo::createFibonacciSpiral);
 
 
     //Коннекты для меню About

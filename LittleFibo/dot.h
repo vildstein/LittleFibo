@@ -4,6 +4,8 @@
 #include <QGraphicsObject>
 
 class TrendLine;
+class FiboSpiral;
+class FibonacciLevels;
 
 class Dot : public QGraphicsObject
 {
@@ -18,7 +20,9 @@ public:
     QPointF getCenter() const;
 
     //Сеттеры
-    void setLine(TrendLine *trendLine);
+    void setLine(TrendLine *trendLine = nullptr);
+    void setSpiral(FiboSpiral *spiral = nullptr);
+    void setFibonacciLevelsMainLine(FibonacciLevels *mainLine = nullptr);
 
 protected:
     virtual QRectF	boundingRect() const override;
@@ -33,7 +37,9 @@ private:
     QPointF mCenter{0, 0};
     QRectF mItemRect;
 
-    TrendLine *mTrendLine;
+    TrendLine *mTrendLine = nullptr;
+    FiboSpiral *mSpiral = nullptr;
+    FibonacciLevels *mFibonacciLevelsMainLine = nullptr;
 };
 
 #endif // DOT_H

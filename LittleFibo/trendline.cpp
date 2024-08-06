@@ -7,7 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-TrendLine::TrendLine(Dot *startPos, Dot *endPos, QGraphicsItem *parent) : mStartPosDot(startPos), mEndPosDot(endPos), QGraphicsLineItem(parent)
+TrendLine::TrendLine(Dot *startPos, Dot *endPos, QGraphicsItem *parent) : QGraphicsLineItem(parent), mStartPosDot(startPos), mEndPosDot(endPos)
 {
     setFlag(ItemIsSelectable, true);
     setFlag(ItemIsMovable, true);

@@ -44,6 +44,7 @@ else()
             trendline.h trendline.cpp
             dot.h dot.cpp
             fibospiral.h fibospiral.cpp
+            fibonaccilevels.h fibonaccilevels.cpp
         )
     endif()
 endif()
