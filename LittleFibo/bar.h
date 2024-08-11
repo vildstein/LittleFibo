@@ -6,7 +6,7 @@
 class Bar : public QGraphicsObject
 {
 public:
-    Bar();
+    explicit Bar();
     virtual ~Bar();
     //Геттеры
 

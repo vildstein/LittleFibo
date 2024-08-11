@@ -32,7 +32,7 @@ class LittleFibo : public QMainWindow
     Q_OBJECT
 
 public:
-    LittleFibo(QWidget *parent = nullptr);
+    explicit LittleFibo(QWidget *parent = nullptr);
     virtual ~LittleFibo();
 
     //Геттеры

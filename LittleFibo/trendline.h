@@ -13,7 +13,7 @@ class Dot;
 class TrendLine : public QGraphicsLineItem
 {
 public:
-    TrendLine(Dot *startPos, Dot *endPos, QGraphicsItem *parent = nullptr);
+    explicit TrendLine(Dot *startPos, Dot *endPos, QGraphicsItem *parent = nullptr);
 
     void updatePosition();
 

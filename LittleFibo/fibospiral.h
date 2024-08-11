@@ -10,7 +10,7 @@ class Dot;
 class FiboSpiral : public QGraphicsPathItem//, private QGraphicsLineItem
 {
 public:
-    FiboSpiral(Dot *startPos, Dot *endPos, QGraphicsItem *parent = nullptr);
+    explicit FiboSpiral(Dot *startPos, Dot *endPos, QGraphicsItem *parent = nullptr);
     virtual ~FiboSpiral();
 
     void updatePosition();

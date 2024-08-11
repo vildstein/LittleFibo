@@ -10,7 +10,7 @@ class FibonacciLevels;
 class Dot : public QGraphicsObject
 {
 public:
-    Dot(QGraphicsItem *parent = nullptr);
+    explicit Dot(QGraphicsItem *parent = nullptr);
     virtual ~Dot() = default;
 
     void updateStartPosition(TrendLine *trendLine = nullptr);
