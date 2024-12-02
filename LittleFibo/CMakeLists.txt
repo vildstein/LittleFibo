@@ -13,10 +13,17 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Pdf Qt5Gui Qt5)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Gui)
 
 set(PROJECT_SOURCES
-        main.cpp
-        littlefibo.cpp
-        littlefibo.h
-)
+    bar.h bar.cpp
+    constatants.h
+    dot.h dot.cpp
+    fibonaccilevels.h fibonaccilevels.cpp
+    fibospiral.h fibospiral.cpp
+    littlefibo.h littlefibo.cpp
+    mainwindowscene.h mainwindowscene.cpp
+    templates.h
+    trendline.h trendline.cpp
+    main.cpp
+    )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(LittleFibo

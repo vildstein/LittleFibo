@@ -9,3 +9,8 @@ MainWindowScene::~MainWindowScene()
 {
 
 }
+
+void MainWindowScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    clear();
+}
