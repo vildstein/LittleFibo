@@ -5,10 +5,10 @@
 
 class MainWindowScene : public QGraphicsScene
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit MainWindowScene(QObject *parent = nullptr);
-    virtual ~MainWindowScene();
+	explicit MainWindowScene(QObject *parent = nullptr);
+	virtual ~MainWindowScene();
 signals:
 
 public slots:

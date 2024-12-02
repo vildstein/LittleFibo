@@ -10,17 +10,17 @@ namespace Functions {
 
 void setInvertedBool(bool &value)
 {
-    value = !value;
+	value = !value;
 }
 
 void setBoolValueTrue(bool &value)
 {
-    value = true;
+	value = true;
 }
 
 void setBoolValueFalse(bool &value)
 {
-    value = false;
+	value = false;
 }
 
 
@@ -31,10 +31,9 @@ namespace TemplatesFunctions {
 template<typename T>
 void clearVector(QVector<T> &vector)
 {
-    if(!vector.isEmpty())
-    {
-        vector.clear();
-    }
+	if (!vector.isEmpty()) {
+		vector.clear();
+	}
 }
 
 
@@ -43,34 +42,28 @@ void clearVector(QVector<T> &vector)
 template <typename T>
 void clearDynamicVector(QVector<T*> &vector)
 {
-    if(!vector.isEmpty())
-    {
-        class QVector<T*>::iterator i;
-        for(i = vector.begin(); i!=vector.end(); ++i)
-        {
-            delete *i;
-            *i=nullptr;
-        }
-        vector.clear();
-    }
+	if (!vector.isEmpty()) {
+		class QVector<T*>::iterator i;
+		for(i = vector.begin(); i !=vector.end(); ++i) {
+			delete *i;
+			*i=nullptr;
+		}
+		vector.clear();
+	}
 }
 
 template <typename T1, typename T2>
 void clearDynamicMap(QMap<T1, T2*> &mainMap)
 {
-    if(!mainMap.isEmpty())
-    {
-        class QMap<T1, T2*>::iterator it;
-        for(it = mainMap.begin(); it != mainMap.end(); it++)
-        {
-            delete it.value();
-            it.value() = nullptr;
-        }
-        mainMap.clear();
-    }
+	if (!mainMap.isEmpty()) {
+		class QMap<T1, T2*>::iterator it;
+		for(it = mainMap.begin(); it != mainMap.end(); it++) {
+			delete it.value();
+			it.value() = nullptr;
+		}
+		mainMap.clear();
+	}
 }
-
-
 
 }
 
