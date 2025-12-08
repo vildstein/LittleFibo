@@ -60,6 +60,7 @@ void LittleFibo::createDataLoadFromNetworkDialog()
 void LittleFibo::createTrendLine()
 {
 	auto* trendLine = new TrendLine(mScene);
+	mScene->addItem(trendLine);
 
 	//mScene -> addItem(startDot);
 	//mScene -> addItem(endDot);

@@ -7,6 +7,7 @@
 #include <QPen>
 #include <QStyle>
 #include <QStyleOptionGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 
 //Удалить потом
 #include <QDebug>
@@ -29,6 +30,11 @@ Dot::Dot(const QPointF &pos, QGraphicsEllipseItem* parent) : QGraphicsEllipseIte
 
 	mItemRect = QRectF{mCenter - QPointF(3.0, 3.0), mCenter + QPointF(3.0, 3.0)};
 
+}
+
+Dot::~Dot() // = default;
+{
+	qInfo() << "Dot Destroyed!!!";
 }
 
 void Dot::updateStartPosition(TrendLine* trendLine)
@@ -78,8 +84,8 @@ void Dot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 {
 	QPen pen(Qt::red);
 	painter -> setBrush(Qt::red);
-	if(option -> state & QStyle::State_Selected)
-	{
+	//if(option -> state & QStyle::State_Selected) {
+	if (isSelected()) {
 		pen.setColor(Qt::green);
 		painter -> setPen(pen);
 		painter -> setBrush(Qt::green);
@@ -105,20 +111,31 @@ QVariant Dot::itemChange(GraphicsItemChange change, const QVariant &value)
 		else if(mFibonacciLevelsMainLine != nullptr) {
             mFibonacciLevelsMainLine->updatePosition();
 		}
+	} else if (change == QGraphicsItem::ItemSelectedChange) {
+		isSelected() ? (qInfo() << "Fuck") : (qInfo() << "SUCK");
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
-/*
+
 void Dot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	setSelected(true);
+	update();
 	QGraphicsEllipseItem::mousePressEvent(event);
 }
-*/
-/*
+
+
 void Dot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	setSelected(false);
-	QGraphicsEllipseItem::mousePressEvent(event);
+	update();
+	QGraphicsEllipseItem::mouseReleaseEvent(event);
+}
+/*
+void Dot::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+	moveBy();
+	QGraphicsEllipseItem::mouseMoveEvent(event);
 }
 */
+
