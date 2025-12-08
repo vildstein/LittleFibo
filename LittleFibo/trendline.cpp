@@ -7,30 +7,34 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QAction>
+#include <QMenu>
+#include <QGraphicsSceneContextMenuEvent>
 #include "mainwindowscene.h"
 
-TrendLine::TrendLine(MainWindowScene* scene, QGraphicsItem* parent) : QGraphicsLineItem(parent), mScene(scene), mLine(new QLineF)
+TrendLine::TrendLine(MainWindowScene* scene, QGraphicsItem* parent) : QGraphicsLineItem(parent),
+	mScene(scene),
+	mLine(new QLineF)
 {
 	setFlag(ItemIsSelectable, true);
 	setFlag(ItemIsMovable, true);
 	setFlag(ItemSendsGeometryChanges, true);
 
-	createActions();
-	createMenues();
+	//createActions();
+
 	setZValue(0);
 
-	m_StartPosDot = new Dot(QPointF(200, 200));
-	m_EndPosDot = new Dot(QPointF(400, 400));
-	mLine->setPoints(m_StartPosDot->pos(), m_EndPosDot->pos());
+	mStartPosDot = new Dot(QPointF(200, 200));
+	mEndPosDot = new Dot(QPointF(400, 400));
+	mLine->setPoints(mStartPosDot->pos(), mEndPosDot->pos());
 
-	m_StartPosDot->setLine(this);
-	m_EndPosDot->setLine(this);
+	mStartPosDot->setLine(this);
+	mEndPosDot->setLine(this);
 
-	m_StartPosDot->setZValue(1.0);
-	m_EndPosDot->setZValue(1.0);
+	mStartPosDot->setZValue(1.0);
+	mEndPosDot->setZValue(1.0);
 
-	m_StartPosDot->setParentItem(this);
-	m_EndPosDot->setParentItem(this);
+	mStartPosDot->setParentItem(this);
+	mEndPosDot->setParentItem(this);
 
 	setLine(*mLine);
 	updatePosition();
@@ -47,23 +51,23 @@ TrendLine::~TrendLine()
 
 void TrendLine::updatePosition()
 {
-	mLine->setPoints(m_StartPosDot->pos(), m_EndPosDot->pos());
-    setLine(*mLine);
-}
-
-void TrendLine::updatePosition(const QPointF& pos)
-{
-	//mLine->
+	mLine->setPoints(mStartPosDot->pos(), mEndPosDot->pos());
+	setLine(*mLine);
 }
 
 QPointF TrendLine::getStartPos() const
 {
-    return m_StartPosDot->pos();
+	return mStartPosDot->pos();
+}
+
+void TrendLine::setMenuToOwn(QMenu* contextMenu)
+{
+	mContextMenu.reset(contextMenu); // first step
 }
 
 QRectF TrendLine::boundingRect() const
 {
-	QRectF rect(m_StartPosDot->pos(), m_EndPosDot->pos());
+	QRectF rect(mStartPosDot->pos(), mEndPosDot->pos());
 	return rect.normalized().adjusted(-8, -8, 8, 8);
 }
 
@@ -86,9 +90,9 @@ void TrendLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 		prepareGeometryChange();
 
 		mPen.setColor(Qt::red);
-		painter->setPen(mPen);
 		painter->setBrush(Qt::NoBrush);
-		mPen.setWidth(6);
+		mPen.setWidth(3);
+		painter->setPen(mPen);
 		//painter->drawRect(boundingRect());
 		painter->drawLine(*mLine);
 		//painter->drawPath(shape());
@@ -104,65 +108,48 @@ void TrendLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 void TrendLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	setSelected(true);
-	m_StartPosDot->setSelected(true);
-	m_EndPosDot->setSelected(true);
+	mStartPosDot->setSelected(true);
+	mEndPosDot->setSelected(true);
 
 	update();
 
-    QGraphicsLineItem::mousePressEvent(event);
+	QGraphicsLineItem::mousePressEvent(event);
 }
-/*
-QVariant TrendLine::itemChange(GraphicsItemChange change, const QVariant& value)
-{
-	if(change == QGraphicsItem::ItemPositionHasChanged) {
-		//auto posPOne =  mLine->p1();
-		//auto posPTwo =  mLine->p2();
 
-		//auto rect = m_StartPosDot->rect();
-		//rect.moveTo(posPOne);
-		//m_StartPosDot->setPos(QPointF(0, 0));
-
-		//auto ch = value.toPointF();
-		//m_StartPosDot->moveBy(ch.rx(), ch.ry());
-
-
-
-
-
-
-
-
-		//m_StartPosDot->updateStartPosition(this);
-        //mEndPosDot  -> setPos(mLine.p2());
-
-    }
-
-    return QGraphicsLineItem::itemChange(change, value);
-}
-*/
 void TrendLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	setSelected(false);
-	m_StartPosDot->setSelected(false);
-	m_EndPosDot->setSelected(false);
+	mStartPosDot->setSelected(false);
+	mEndPosDot->setSelected(false);
 
 	update();
 
-    QGraphicsLineItem::mouseReleaseEvent(event);
+	QGraphicsLineItem::mouseReleaseEvent(event);
 }
 
-// void TrendLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-// {
+void TrendLine::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+	if (!mContextMenu.isNull()) {
+		mScene->clearSelection();
+		setSelected(true);
+		mContextMenu->popup(event->screenPos());
+	}
+}
 
-// }
-
+/*
 void TrendLine::createActions()
 {
-    //settingsAction = new QAction(tr(""), this);
-    //deleteAction = new QAction(tr(""), this);
-}
+	auto* settingsAction = new QAction(tr("Настройки линии тренда"));
+	auto* deleteAction = new QAction(tr("Удалить эту линию тренда"));
 
+	mContextMenu->addAction(settingsAction);
+	mContextMenu->addAction(deleteAction);
+
+}
+*/
+/*
 void TrendLine::createMenues()
 {
 
 }
+*/

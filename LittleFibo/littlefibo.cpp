@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QGraphicsView>
 #include <QAction>
+#include <QActionGroup>
 #include <QMenu>
 #include <QMenuBar>
 #include <QCloseEvent>
@@ -60,6 +61,7 @@ void LittleFibo::createDataLoadFromNetworkDialog()
 void LittleFibo::createTrendLine()
 {
 	auto* trendLine = new TrendLine(mScene);
+	createContextMenuForTrendLine(trendLine);
 	mScene->addItem(trendLine);
 
 	//mScene -> addItem(startDot);
@@ -123,6 +125,7 @@ void LittleFibo::closeEvent(QCloseEvent *event)
 {
 	saveFile();
 	mScene->clear();
+	mTrendLinesMap.clear();
 	event->accept();
 }
 
@@ -154,15 +157,15 @@ void LittleFibo::createActions()
 
 
 	exitAction  = new QAction(("Выход"), this);
-	exitAction -> setShortcut(tr("Ctrl+Q"));
-	exitAction -> setStatusTip(tr("Выход из приложения"));
+	exitAction->setShortcut(tr("Ctrl+Q"));
+	exitAction->setStatusTip(tr("Выход из приложения"));
 
 	//Экшены для менюшки ИНСТРУМЕНТЫ
 	//1. Для подменюшки СЕТЬ
 	showGridAction = new QAction(tr("Показать сетку"), this);
-	showGridAction -> setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
+	showGridAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
 	hideGridAction = new QAction(tr("Скрыть сетку"), this);
-	hideGridAction -> setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
+	hideGridAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
 	setupGridAction = new QAction(tr("Настроить сетку"), this);
 
 	//2. Для подменюшки Линии
@@ -280,4 +283,57 @@ void LittleFibo::createMenus()
 void LittleFibo::createStatusBar()
 {
 
+}
+
+void LittleFibo::createContextMenuForTrendLine(TrendLine *trendLine)
+{
+	auto* trendLineContexMenu = new QMenu(this);
+	auto* trendLineActionGroup = new QActionGroup(trendLineContexMenu);
+
+	auto* settingsAction = new QAction(tr("Настройки линии тренда"), trendLineContexMenu);
+	auto* deleteAction = new QAction(tr("Удалить эту линию тренда"), trendLineContexMenu);
+
+	//trendLineContexMenu->addAction(settingsAction);
+	//trendLineContexMenu->addAction(deleteAction);
+
+	connect(trendLineContexMenu, &QMenu::destroyed, this, [](){ qInfo() << "Меню разрушено";});
+	connect(settingsAction, &QAction::destroyed, this, [](){ qInfo() << "settingsAction разрушено";});
+	connect(deleteAction, &QAction::destroyed, this, [](){ qInfo() << "deleteAction разрушено";});
+
+	trendLineActionGroup->addAction(settingsAction);
+	trendLineActionGroup->addAction(deleteAction);
+	trendLineContexMenu->addAction(settingsAction);
+	trendLineContexMenu->addAction(deleteAction);
+
+	connect(trendLineActionGroup, &QActionGroup::triggered, this, &LittleFibo::removeTrendLine);
+	connect(trendLineActionGroup, &QActionGroup::destroyed, this, [](){ qInfo() << "trendLineActionGroup разрушен";});
+
+	trendLine->setMenuToOwn(trendLineContexMenu);
+
+	mTrendLinesMap.insert(trendLineActionGroup, trendLine);
+}
+
+void LittleFibo::removeTrendLine(QAction* trendLineAction)
+{
+	auto* actionGroup = trendLineAction->actionGroup();
+	auto* trendLine = mTrendLinesMap.value(actionGroup, nullptr);
+
+	disconnect(actionGroup, nullptr, nullptr, nullptr);
+	disconnect(trendLineAction->menu(), nullptr, nullptr, nullptr);
+
+	if (trendLine != nullptr && trendLineAction->text() == tr("Удалить эту линию тренда")) {
+		auto acts = actionGroup->actions();
+		foreach (const auto& act, acts) {
+			disconnect(act, nullptr, nullptr, nullptr);
+		}
+
+		mScene->removeItem(trendLine);
+		delete trendLine;
+		trendLine = nullptr;
+		mTrendLinesMap.remove(actionGroup);
+
+		qInfo() << mTrendLinesMap.count();
+	} else {
+		qInfo() << "actionGroup = nullptr" ;
+	}
 }

@@ -8,6 +8,7 @@
 
 class QGraphicsView;
 class QAction;
+class QActionGroup;
 class QMenu;
 
 //Пользовательские ТД
@@ -64,6 +65,8 @@ private slots:
 	//Окно "О Программе"
 	void about();
 
+	void removeTrendLine(QAction* trendLineAction);
+
 protected:
 	virtual void closeEvent(QCloseEvent *event) override;
 
@@ -81,6 +84,9 @@ private:
 	void createMenus();
 	//Создать строку состояния
 	void createStatusBar();
+
+	void createContextMenuForTrendLine(TrendLine *trendLine);
+
 
 
 	QGraphicsView* mView{nullptr};
@@ -165,5 +171,7 @@ private:
 
 	//Флаг для функции показать сетку или нет
 	bool isGridShown{true};
+
+	QMap<QActionGroup*, TrendLine*> mTrendLinesMap;
 };
 #endif // LITTLEFIBO_H
