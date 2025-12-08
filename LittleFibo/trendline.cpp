@@ -37,9 +37,46 @@ TrendLine::TrendLine(Dot* startPos, Dot* endPos, MainWindowScene* scene, QGraphi
     updatePosition();
 }
 
+TrendLine::TrendLine(MainWindowScene* scene, QGraphicsItem* parent) : QGraphicsLineItem(parent), mScene(scene), mLine(new QLineF)
+{
+	setFlag(ItemIsSelectable, true);
+	setFlag(ItemIsMovable, true);
+	setFlag(ItemSendsGeometryChanges, true);
+
+	createActions();
+	createMenues();
+	setZValue(0);
+
+	m_StartPosDot = new Dot(QPointF(200, 200));
+	m_EndPosDot = new Dot(QPointF(400, 400));
+	mLine->setPoints(m_StartPosDot->pos(), m_EndPosDot->pos());
+
+	m_StartPosDot->setLine(this);
+	m_EndPosDot->setLine(this);
+
+	m_StartPosDot->setZValue(1.0);
+	m_EndPosDot->setZValue(1.0);
+
+	mScene->addItem(m_StartPosDot);
+	mScene->addItem(m_EndPosDot);
+	mScene->addItem(this);
+
+	setLine(*mLine);
+	updatePosition();
+
+	auto posPOne =  mLine->p1();
+	auto posPTwo =  mLine->p2();
+
+	qInfo() << posPOne << posPTwo;
+	m_StartPosDot->setPos(posPOne);
+
+}
+
 TrendLine::~TrendLine()
 {
-    //mScene->removeItem(mStartPosDot.get());
+	//delete mLine;
+	qInfo() << "Trend Line destroyed";
+	//mScene->removeItem(mStartPosDot.get());
    // mScene->removeItem(mEndPosDot.get());
    // mScene->removeItem(this);
 }
@@ -57,8 +94,8 @@ QPointF TrendLine::getStartPos() const
 
 QRectF TrendLine::boundingRect() const
 {
-    QRectF rect(m_StartPosDot->pos(), m_EndPosDot->pos());
-	return rect;
+	QRectF rect(m_StartPosDot->pos(), m_EndPosDot->pos());
+	return rect.normalized().adjusted(-8, -8, 8, 8);
 }
 
 QPainterPath TrendLine::shape() const
@@ -81,7 +118,7 @@ QPainterPath TrendLine::shape() const
 //	return path;
 //}
 
-void TrendLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TrendLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	QPen mPen;
 	mPen.setWidth(2);
@@ -91,32 +128,47 @@ void TrendLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 	if (option->state & QStyle::State_Selected) {
 		prepareGeometryChange();
-        painter->drawRect(boundingRect());
+
 		//pen.setStyle(Qt::DotLine);
 		mPen.setColor(Qt::green);
 		painter->setPen(mPen);
 		painter->setBrush(Qt::NoBrush);
 		mPen.setWidth(4);
+		painter->drawRect(boundingRect());
 		update();
 	}
 
+	mPen.setColor(Qt::green);
+	painter->setBrush(Qt::NoBrush);
 	painter->setPen(mPen);
     painter->drawLine(*mLine);
 }
 
 void TrendLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    this->setSelected(true);
-    m_StartPosDot->setSelected(true);
-    m_EndPosDot->setSelected(true);
+	setSelected(true);
+	m_StartPosDot->setSelected(true);
+	m_EndPosDot->setSelected(true);
+
+	update();
 
     QGraphicsLineItem::mousePressEvent(event);
 }
 
-QVariant TrendLine::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant TrendLine::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if(change == QGraphicsItem::ItemPositionChange) {
-        m_StartPosDot->updateStartPosition(this);
+	if(change == QGraphicsItem::ItemPositionHasChanged) {
+		auto posPOne =  mLine->p1();
+		auto posPTwo =  mLine->p2();
+
+		qInfo() << posPOne << posPTwo << m_StartPosDot->pos() << m_EndPosDot->pos() << value.toPointF();
+		m_StartPosDot->setPos(posPOne);
+
+		qInfo() << line().p1() << line().p2();
+
+
+
+		//m_StartPosDot->updateStartPosition(this);
         //mEndPosDot  -> setPos(mLine.p2());
 
     }
@@ -126,9 +178,14 @@ QVariant TrendLine::itemChange(GraphicsItemChange change, const QVariant &value)
 
 void TrendLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    this->setSelected(false);
-    m_StartPosDot->setSelected(false);
-    m_EndPosDot->setSelected(false);
+	setSelected(false);
+	m_StartPosDot->setSelected(false);
+	m_EndPosDot->setSelected(false);
+
+	updatePosition();
+
+	update();
+
     QGraphicsLineItem::mouseReleaseEvent(event);
 }
 

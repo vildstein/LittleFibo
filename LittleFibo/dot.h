@@ -30,8 +30,8 @@ protected:
 	virtual QPainterPath shape() const override;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 	virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
-	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+	//virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+	//virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
 	//QPointF mPos;

@@ -59,13 +59,13 @@ void LittleFibo::createDataLoadFromNetworkDialog()
 //Создать линию тренда
 void LittleFibo::createTrendLine()
 {
-	trendLine = new TrendLine(QPointF(200.0, 200.0), QPointF(400.0, 400.0));
+	auto* trendLine = new TrendLine(mScene);
 
 	//mScene -> addItem(startDot);
 	//mScene -> addItem(endDot);
-	mScene->addItem(trendLine);
+	//mScene->addItem(trendLine);
 
-	mScene->clearSelection();
+	//mScene->clearSelection();
 
 }
 

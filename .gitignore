@@ -1,5 +1,8 @@
 /build-LittleFibo-Qt6_desktop-Debug/
 
+/build*
+
+*/build*
 
 moc_*.cpp
 ui_*.h

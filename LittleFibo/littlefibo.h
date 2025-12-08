@@ -83,14 +83,14 @@ private:
 	void createStatusBar();
 
 
-	QGraphicsView *mView;
+	QGraphicsView* mView{nullptr};
 
 	//Пользовательские тд
-	MainWindowScene *mScene;
+	MainWindowScene* mScene{nullptr};
 
-	Dot *startDot;
-	Dot *endDot;
-	TrendLine *trendLine;
+	//Dot *startDot;
+	//Dot *endDot;
+	//TrendLine *trendLine;
 	FibonacciLevels *mFibonacciLevels;
 	FiboSpiral *spiral;
 

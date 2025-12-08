@@ -93,6 +93,8 @@ void Dot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidg
 
 QVariant Dot::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+	//Write for switch
+
 	if(change == QGraphicsItem::ItemPositionHasChanged) {
 		if (mTrendLine != nullptr) {
             mTrendLine->updatePosition();
@@ -106,14 +108,17 @@ QVariant Dot::itemChange(GraphicsItemChange change, const QVariant &value)
 	}
 	return QGraphicsItem::itemChange(change, value);
 }
-
+/*
 void Dot::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+	setSelected(true);
 	QGraphicsEllipseItem::mousePressEvent(event);
 }
-
+*/
+/*
 void Dot::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	setSelected(false);
 	QGraphicsEllipseItem::mousePressEvent(event);
 }
+*/
