@@ -14,6 +14,9 @@
 #include <QGraphicsSceneContextMenuEvent>
 
 
+//Всё очень нее карсиво. Нужно переделать.
+
+
 FibonacciLevels::FibonacciLevels(Dot *startPos, Dot *endPos, QGraphicsItem *parent) : QGraphicsLineItem(parent), mStartPosDot(startPos), mEndPosDot(endPos)
 {
 	setFlag(ItemIsSelectable, true);
@@ -29,25 +32,25 @@ FibonacciLevels::FibonacciLevels(Dot *startPos, Dot *endPos, QGraphicsItem *pare
 	this -> setZValue(-1);
 
 	mLevelOneLine = new QLineF;
-	mLevelOneLine -> setPoints(mMainLine -> p1(), QPointF(mMainLine -> p2().x(), mMainLine -> p1().y()));
+	mLevelOneLine->setPoints(mMainLine->p1(), QPointF(mMainLine->p2().x(), mMainLine->p1().y()));
 
 	mLevelZeroLine = new QLineF;
-	mLevelZeroLine -> setPoints(mMainLine -> p2(), QPointF(mMainLine -> p1().x(), mMainLine -> p2().y()));
+	mLevelZeroLine->setPoints(mMainLine->p2(), QPointF(mMainLine->p1().x(), mMainLine->p2().y()));
 
 	mLevel0236Line = new QLineF;
-	mLevel0236Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.236).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.236).y()));
+	mLevel0236Line->setPoints(QPointF(mMainLine->p1().x(), mMainLine->pointAt(0.236).y()), QPointF(mMainLine->p2().x(), mMainLine->pointAt(0.236).y()));
 
 	mLevel0382Line = new QLineF;
-	mLevel0382Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.382).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.382).y()));
+	mLevel0382Line->setPoints(QPointF(mMainLine->p1().x(), mMainLine->pointAt(0.382).y()), QPointF(mMainLine->p2().x(), mMainLine->pointAt(0.382).y()));
 
 	mLevel05Line = new QLineF;
-	mLevel05Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.5).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.5).y()));
+	mLevel05Line->setPoints(QPointF(mMainLine->p1().x(), mMainLine->pointAt(0.5).y()), QPointF(mMainLine->p2().x(), mMainLine->pointAt(0.5).y()));
 
 	mLevel0618Line = new QLineF;
-	mLevel0618Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.618).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.618).y()));
+	mLevel0618Line->setPoints(QPointF(mMainLine->p1().x(), mMainLine->pointAt(0.618).y()), QPointF(mMainLine->p2().x(), mMainLine->pointAt(0.618).y()));
 
 	mLevel0786Line = new QLineF;
-	mLevel0786Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.786).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.786).y()));
+	mLevel0786Line->setPoints(QPointF(mMainLine->p1().x(), mMainLine->pointAt(0.786).y()), QPointF(mMainLine->p2().x(), mMainLine->pointAt(0.786).y()));
 
 	mLevel1272Line = new QLineF;
 
@@ -110,13 +113,13 @@ void FibonacciLevels::updatePosition()
 {
 	mMainLine -> setPoints(mapFromItem(mStartPosDot, 0, 0), mapFromItem(mEndPosDot, 0, 0));
 	//mMainLine -> setPoints(mStartPosDot -> getCenter(), mEndPosDot -> getCenter());
-	mLevelOneLine -> setPoints(mMainLine -> p1(), QPointF(mMainLine -> p2().x(), mMainLine -> p1().y()));
-	mLevelZeroLine -> setPoints(mMainLine -> p2(), QPointF(mMainLine -> p1().x(), mMainLine -> p2().y()));
-	mLevel0236Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.236).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.236).y()));
-	mLevel0382Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.382).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.382).y()));
-	mLevel05Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.5).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.5).y()));
-	mLevel0618Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.618).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.618).y()));
-	mLevel0786Line -> setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.786).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.786).y()));
+	mLevelOneLine->setPoints(mMainLine -> p1(), QPointF(mMainLine -> p2().x(), mMainLine -> p1().y()));
+	mLevelZeroLine->setPoints(mMainLine -> p2(), QPointF(mMainLine -> p1().x(), mMainLine -> p2().y()));
+	mLevel0236Line->setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.236).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.236).y()));
+	mLevel0382Line->setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.382).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.382).y()));
+	mLevel05Line->setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.5).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.5).y()));
+	mLevel0618Line->setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.618).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.618).y()));
+	mLevel0786Line->setPoints(QPointF(mMainLine -> p1().x(), mMainLine -> pointAt(0.786).y()), QPointF(mMainLine -> p2().x(), mMainLine -> pointAt(0.786).y()));
 
 	setLine(*mMainLine);
 }
@@ -124,7 +127,7 @@ void FibonacciLevels::updatePosition()
 QPainterPath FibonacciLevels::shape() const
 {
 	QPainterPath path;
-	path.addRect(QRectF(mMainLine -> p1(), mMainLine -> p2()).adjusted(-1, -1, +1, +1));
+	path.addRect(QRectF(mMainLine->p1(), mMainLine->p2()).adjusted(-1, -1, +1, +1));
 
 	return path;
 }
@@ -275,32 +278,29 @@ void FibonacciLevels::createMenus()
 void FibonacciLevels::showOrHideFiboLevels(void (*iverterFunction)(bool&), bool &levelFlag, QAction *action)
 {
 	QFont font("Times", 12, QFont::Bold);
-	if(!levelFlag)
-	{
+	if(!levelFlag) {
 		iverterFunction(levelFlag);
-		action -> setFont(font);
-	}
-	else
-	{
+		action->setFont(font);
+	} else {
 		iverterFunction(levelFlag);
-		font = qApp -> font();
-		action -> setFont(font);
+		font = qApp->font();
+		action->setFont(font);
 	}
 }
 
 void FibonacciLevels::selectAllItems()
 {
-	this -> setSelected(true);
-	mStartPosDot -> setSelected(true);
-	mEndPosDot -> setSelected(true);
+	this->setSelected(true);
+	mStartPosDot->setSelected(true);
+	mEndPosDot->setSelected(true);
 	//updatePosition();
 }
 
 void FibonacciLevels::unSelectAllItems()
 {
-	this -> setSelected(false);
-	mStartPosDot -> setSelected(false);
-	mEndPosDot -> setSelected(false);
+	this->setSelected(false);
+	mStartPosDot->setSelected(false);
+	mEndPosDot->setSelected(false);
 }
 void FibonacciLevels::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
@@ -342,7 +342,7 @@ QVariant FibonacciLevels::itemChange(GraphicsItemChange change, const QVariant &
 
 void FibonacciLevels::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-	if(event -> button() == Qt::LeftButton)
+	if(event->button() == Qt::LeftButton)
 	{
 		// this -> setSelected(false);
 		// mStartPosDot -> setSelected(false);

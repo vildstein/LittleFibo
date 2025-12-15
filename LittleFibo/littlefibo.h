@@ -97,7 +97,7 @@ private:
 	//Dot *startDot;
 	//Dot *endDot;
 	//TrendLine *trendLine;
-	FibonacciLevels *mFibonacciLevels;
+	//FibonacciLevels *mFibonacciLevels;
 	FiboSpiral *spiral;
 
 

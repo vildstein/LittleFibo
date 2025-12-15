@@ -30,8 +30,6 @@ LittleFibo::LittleFibo(QWidget *parent) : QMainWindow(parent)
 	mView->setDragMode(QGraphicsView::RubberBandDrag);
 	mView->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-
-
 	createActions();
 	createMenus();
 	createStatusBar();
@@ -85,18 +83,20 @@ void LittleFibo::createVerticalLine()
 
 void LittleFibo::createFibonacciLevels()
 {
-//	startDot = new Dot;
-//	endDot = new Dot;
+	auto* startDot = new Dot(QPointF(150.0, 100.0));
+	auto* endDot = new Dot(QPointF(300.0, 300.0));
 //	startDot->setPos(QPointF(150.0, 100.0));
 //	endDot->setPos(QPointF(300.0, 300.0));
 
-//	mFibonacciLevels = new FibonacciLevels(startDot, endDot);
+	auto* fibonacciLevels = new FibonacciLevels(startDot, endDot);
+	startDot->setParentItem(fibonacciLevels);
+	endDot->setParentItem(fibonacciLevels);
 
 //	mScene->addItem(startDot);
 //	mScene->addItem(endDot);
-//	mScene->addItem(mFibonacciLevels);
+	mScene->addItem(fibonacciLevels);
 
-//	mScene->clearSelection();
+	mScene->clearSelection();
 }
 //Создать спираль
 void LittleFibo::createFibonacciSpiral()

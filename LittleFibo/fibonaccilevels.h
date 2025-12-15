@@ -64,7 +64,8 @@ private:
     QLineF *mLevel05Line = nullptr;
     QLineF *mLevel0618Line = nullptr;
     QLineF *mLevel0786Line = nullptr;
-    QLineF *mLevel1272Line = nullptr;
+
+	QLineF *mLevel1272Line = nullptr;
     QLineF *mLevel1618Line = nullptr;
     QLineF *mLevel2618Line = nullptr;
     QLineF *mLevel4263Line = nullptr;
